@@ -25,3 +25,10 @@ __pycache__/
 Thumbs.db
 .vscode/
 .idea/
+
+# Backup files
+*.bak.*
+*.backup.*
+
+full-stack.sh.*
+full-stack-test.sh.*
