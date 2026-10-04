@@ -1,0 +1,36 @@
+model_list:
+  - model_name: qwen3.5-4b
+    litellm_params:
+      model: openai/qwen3.5-4b
+      api_base: http://127.0.0.1:8080/v1
+      api_key: noop
+
+  - model_name: ministral-3b
+    litellm_params:
+      model: openai/ministral-3b
+      api_base: http://127.0.0.1:8080/v1
+      api_key: noop
+
+  - model_name: ministral-8b
+    litellm_params:
+      model: openai/ministral-8b
+      api_base: http://127.0.0.1:8080/v1
+      api_key: noop
+
+  - model_name: deepseek-r1-7b
+    litellm_params:
+      model: openai/deepseek-r1-7b
+      api_base: http://127.0.0.1:8080/v1
+      api_key: noop
+
+  - model_name: claude-sonnet-5
+    litellm_params:
+      model: openai/qwen3.5-4b
+      api_base: http://127.0.0.1:8080/v1
+      api_key: noop
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+
+litellm_settings:
+  drop_params: true

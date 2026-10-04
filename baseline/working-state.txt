@@ -1,0 +1,188 @@
+===== DATE =====
+вс 04 окт 2026 14:59:37 MSK
+
+===== LLAMA-SWAP SERVICE =====
+# /home/oleg/.config/systemd/user/llama-swap.service
+[Unit]
+Description=llama-swap local model manager
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/oleg/bin/llama-swap -config /home/oleg/local-llm-stack/llama-swap.yaml -listen 127.0.0.1:8080 -watch-config
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=infinity
+KillMode=control-group
+Environment=HOME=/home/oleg
+Environment=PATH=/home/oleg/llama.cpp/build-cublas/bin:/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/bin
+
+[Install]
+WantedBy=default.target
+
+===== LITELLM SERVICE =====
+# /home/oleg/.config/systemd/user/litellm.service
+[Unit]
+Description=LiteLLM local gateway
+After=network.target llama-swap.service
+Requires=llama-swap.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/oleg/local-llm-stack/litellm
+EnvironmentFile=/home/oleg/local-llm-stack/litellm/.env
+ExecStart=/home/oleg/local-llm-stack/litellm/venv/bin/litellm --config /home/oleg/local-llm-stack/litellm/config.yaml --host 127.0.0.1 --port 4000
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=infinity
+KillMode=control-group
+Environment=HOME=/home/oleg
+Environment=PATH=/home/oleg/local-llm-stack/litellm/venv/bin:/usr/local/bin:/usr/bin:/bin
+
+[Install]
+WantedBy=default.target
+
+# /home/oleg/.config/systemd/user/litellm.service.d/override.conf
+[Service]
+EnvironmentFile=
+EnvironmentFile=/home/oleg/local-llm-stack/litellm/.env.gateway
+Environment="LITELLM_MODE=PRODUCTION"
+Environment="LITELLM_LOG=INFO"
+Environment="MAX_STRING_LENGTH_STDOUT_LOG=4096"
+
+===== LLAMA-SWAP CONFIG =====
+healthCheckTimeout: 600
+logLevel: info
+logToStdout: both
+
+startPort: 10001
+
+models:
+
+  "qwen3.5-4b":
+    name: "Qwen3.5-4B Q4_K_M — 92K"
+    description: "Primary Hermes model"
+    context: 92160
+    capabilities:
+      in: ["text"]
+      out: ["text"]
+      tools: true
+    cmd: |
+      /home/oleg/local-llm-stack/llama-model-launcher.sh
+      /home/oleg/models/qwen35-4b/Qwen3.5-4B-Q4_K_M.gguf
+      92160
+      ${PORT}
+      qwen3.5-4b
+
+  "ministral-3b":
+    name: "Ministral-3B Q4_K_M — 64K"
+    description: "Compact agent model"
+    context: 65536
+    capabilities:
+      in: ["text"]
+      out: ["text"]
+      tools: true
+    cmd: |
+      /home/oleg/local-llm-stack/llama-model-launcher.sh
+      /home/oleg/models/ministral-3b/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf
+      65536
+      ${PORT}
+      ministral-3b
+
+  "ministral-8b":
+    name: "Ministral-8B Q4_K_M — 64K"
+    description: "Larger agent model"
+    context: 65536
+    capabilities:
+      in: ["text"]
+      out: ["text"]
+      tools: true
+    cmd: |
+      /home/oleg/local-llm-stack/llama-model-launcher.sh
+      /home/oleg/models/ministral-8b/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf
+      65536
+      ${PORT}
+      ministral-8b
+
+  "deepseek-r1-7b":
+    name: "DeepSeek-R1-Distill-Qwen-7B Q4_K_M — 64K"
+    description: "Reasoning model"
+    context: 65536
+    capabilities:
+      in: ["text"]
+      out: ["text"]
+      tools: true
+    cmd: |
+      /home/oleg/local-llm-stack/llama-model-launcher.sh
+      /home/oleg/models/deepseek-r1-7b/DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf
+      65536
+      ${PORT}
+      deepseek-r1-7b
+
+routing:
+  router:
+    use: group
+    settings:
+      groups:
+
+        "small":
+          swap: false
+          exclusive: true
+          members:
+            - "qwen3.5-4b"
+            - "ministral-3b"
+
+        "large":
+          swap: true
+          exclusive: true
+          members:
+            - "ministral-8b"
+            - "deepseek-r1-7b"
+
+performance:
+  disabled: false
+  every: 15s
+
+ui:
+  activity:
+    session_id:
+      - "X-Session-ID"
+      - "X-Litellm-Session-Id"
+
+===== LITELLM CONFIG =====
+model_list:
+  - model_name: qwen3.5-4b
+    litellm_params:
+      model: openai/qwen3.5-4b
+      api_base: http://127.0.0.1:8080/v1
+      api_key: noop
+
+  - model_name: ministral-3b
+    litellm_params:
+      model: openai/ministral-3b
+      api_base: http://127.0.0.1:8080/v1
+      api_key: noop
+
+  - model_name: ministral-8b
+    litellm_params:
+      model: openai/ministral-8b
+      api_base: http://127.0.0.1:8080/v1
+      api_key: noop
+
+  - model_name: deepseek-r1-7b
+    litellm_params:
+      model: openai/deepseek-r1-7b
+      api_base: http://127.0.0.1:8080/v1
+      api_key: noop
+
+  - model_name: claude-sonnet-5
+    litellm_params:
+      model: openai/qwen3.5-4b
+      api_base: http://127.0.0.1:8080/v1
+      api_key: noop
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+
+litellm_settings:
+  drop_params: true

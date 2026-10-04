@@ -1,0 +1,97 @@
+healthCheckTimeout: 600
+logLevel: info
+logToStdout: both
+
+startPort: 10001
+
+models:
+
+  "qwen3.5-4b":
+    name: "Qwen3.5-4B Q4_K_M — 92K"
+    description: "Primary Hermes model"
+    context: 92160
+    capabilities:
+      in: ["text"]
+      out: ["text"]
+      tools: true
+    cmd: |
+      /home/oleg/local-llm-stack/llama-model-launcher.sh
+      /home/oleg/models/qwen35-4b/Qwen3.5-4B-Q4_K_M.gguf
+      92160
+      ${PORT}
+      qwen3.5-4b
+
+  "ministral-3b":
+    name: "Ministral-3B Q4_K_M — 64K"
+    description: "Compact agent model"
+    context: 65536
+    capabilities:
+      in: ["text"]
+      out: ["text"]
+      tools: true
+    cmd: |
+      /home/oleg/local-llm-stack/llama-model-launcher.sh
+      /home/oleg/models/ministral-3b/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf
+      65536
+      ${PORT}
+      ministral-3b
+
+  "ministral-8b":
+    name: "Ministral-8B Q4_K_M — 64K"
+    description: "Larger agent model"
+    context: 65536
+    capabilities:
+      in: ["text"]
+      out: ["text"]
+      tools: true
+    cmd: |
+      /home/oleg/local-llm-stack/llama-model-launcher.sh
+      /home/oleg/models/ministral-8b/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf
+      65536
+      ${PORT}
+      ministral-8b
+
+  "deepseek-r1-7b":
+    name: "DeepSeek-R1-Distill-Qwen-7B Q4_K_M — 64K"
+    description: "Reasoning model"
+    context: 65536
+    capabilities:
+      in: ["text"]
+      out: ["text"]
+      tools: true
+    cmd: |
+      /home/oleg/local-llm-stack/llama-model-launcher.sh
+      /home/oleg/models/deepseek-r1-7b/DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf
+      65536
+      ${PORT}
+      deepseek-r1-7b
+
+routing:
+  router:
+    use: group
+    settings:
+      groups:
+
+        "small":
+          swap: false
+          exclusive: true
+          members:
+            - "qwen3.5-4b"
+            - "ministral-3b"
+
+        "large":
+          swap: true
+          exclusive: true
+          members:
+            - "ministral-8b"
+            - "deepseek-r1-7b"
+
+performance:
+  disabled: false
+  every: 15s
+
+ui:
+  activity:
+    session_id:
+      - "X-Session-ID"
+      - "X-Litellm-Session-Id"

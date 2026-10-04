@@ -1,0 +1,67 @@
+LOCAL LLM STACK — BENCHMARK
+Date: 2026-10-04
+
+Hardware:
+NVIDIA GeForce RTX 3060 12 GB
+
+Architecture:
+Hermes → LiteLLM :4000 → llama-swap :8080 → llama.cpp
+
+FULL STACK TEST
+----------------
+PASS: 9
+FAIL: 0
+
+Cold/request timings:
+---------------------
+
+Qwen3.5-4B
+  Context: 92K
+  Cold/request: 15.186 s
+
+Ministral-3B
+  Context: 64K
+  Cold/request: 7.922 s
+
+Ministral-8B
+  Context: 64K
+  Cold/request: 25.394 s
+
+DeepSeek-R1-7B
+  Context: 64K
+  Cold/request: 25.146 s
+
+Warm inference timings:
+------------------------
+
+Qwen3.5-4B
+  Context: 92K
+  Warm: 1.388538 s
+
+Ministral-3B
+  Context: 64K
+  Warm: 0.382149 s
+
+Ministral-8B
+  Context: 64K
+  Warm: 1.063998 s
+
+DeepSeek-R1-7B
+  Context: 64K
+  Warm: 2.810647 s
+
+Test conditions:
+----------------
+- Warm-up request was executed before each measured warm request.
+- Warm timing is the second request after warm-up.
+- Measurements include the complete request path:
+  client → LiteLLM → llama-swap → llama.cpp.
+- All models returned HTTP 200.
+- LiteLLM reported no recent errors.
+- DeepSeek-R1-7B returned reasoning_content in the test.
+- These measurements represent this specific hardware and configuration.
+- They are latency measurements, not standardized tokens/second benchmarks.
+
+Status:
+-------
+LOCAL LLM STACK — FULL TEST PASSED
