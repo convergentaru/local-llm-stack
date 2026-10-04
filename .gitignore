@@ -32,3 +32,6 @@ Thumbs.db
 
 full-stack.sh.*
 full-stack-test.sh.*
+
+# Benchmark generated artifacts
+benchmark/*.png
