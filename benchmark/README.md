@@ -38,3 +38,35 @@ One warm-up request was executed first. The measured request was the second requ
 - The full-stack test passed.
 - DeepSeek-R1-7B returned `reasoning_content`.
 - These results are intended as practical reference measurements, not as a universal performance ranking.
+
+## Credits
+
+Created by **Oleg** with **Luna (AI)** — AI partner for architecture,
+engineering, experimentation, and documentation.
+
+### North Star
+
+**1,000,000 ⭐ → 10,000,000 ⭐**
+
+Not because stars are the goal.
+
+Because they would mean that local AI became infrastructure
+for millions of developers.
+
+> Build something so useful that the stars become a consequence.
+
+## Credits
+
+Created by **Oleg** with **Luna (AI)** — AI partner for architecture,
+engineering, experimentation, and documentation.
+
+### North Star
+
+**1,000,000 ⭐ → 10,000,000 ⭐**
+
+Not because stars are the goal.
+
+Because they would mean that local AI became infrastructure
+for millions of developers.
+
+> Build something so useful that the stars become a consequence.
