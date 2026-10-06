@@ -1,0 +1,22 @@
+[Unit]
+Description=LiteLLM local gateway
+After=network.target llama-swap.service
+Requires=llama-swap.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h/local-llm-stack/litellm
+EnvironmentFile=%h/local-llm-stack/litellm/.env.gateway
+ExecStart=%h/local-llm-stack/litellm/venv/bin/litellm --config %h/local-llm-stack/litellm/config.yaml --host 127.0.0.1 --port 4000
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=infinity
+KillMode=control-group
+Environment=HOME=%h
+Environment=PATH=%h/local-llm-stack/litellm/venv/bin:/usr/local/bin:/usr/bin:/bin
+Environment=LITELLM_MODE=PRODUCTION
+Environment=LITELLM_LOG=INFO
+Environment=MAX_STRING_LENGTH_STDOUT_LOG=4096
+
+[Install]
+WantedBy=default.target
