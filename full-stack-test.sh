@@ -7,12 +7,14 @@ SWAP="$BASE:8080"
 
 STACK_DIR="$HOME/local-llm-stack"
 
-if [ -f "$STACK_DIR/.env" ]; then
+if [ -f "$STACK_DIR/litellm/.env.gateway" ]; then
+    ENV_FILE="$STACK_DIR/litellm/.env.gateway"
+elif [ -f "$STACK_DIR/.env" ]; then
     ENV_FILE="$STACK_DIR/.env"
 elif [ -f "$STACK_DIR/litellm/.env" ]; then
     ENV_FILE="$STACK_DIR/litellm/.env"
 else
-    echo "ERROR: LiteLLM .env not found"
+    echo "ERROR: LiteLLM environment file not found"
     exit 1
 fi
 

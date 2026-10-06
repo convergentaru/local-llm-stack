@@ -79,12 +79,14 @@ fi
 echo
 echo "========== LITELLM MODELS =========="
 
-if [ -f "$HOME/local-llm-stack/.env" ]; then
+if [ -f "$HOME/local-llm-stack/litellm/.env.gateway" ]; then
+    ENV_FILE="$HOME/local-llm-stack/litellm/.env.gateway"
+elif [ -f "$HOME/local-llm-stack/.env" ]; then
     ENV_FILE="$HOME/local-llm-stack/.env"
 elif [ -f "$HOME/local-llm-stack/litellm/.env" ]; then
     ENV_FILE="$HOME/local-llm-stack/litellm/.env"
 else
-    fail "No LiteLLM .env found"
+    fail "No LiteLLM environment file found"
     ENV_FILE=""
 fi
 
