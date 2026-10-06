@@ -1,0 +1,9 @@
+Local LLM Stack — End-to-End Benchmark
+Time: 2026-10-04 16:13:35
+Gateway: http://127.0.0.1:4000
+
+MODEL                HTTP   TOTAL      PROMPT_TPS   GEN_TPS      STATUS
+qwen3.5-4b           200    1.382s     15.34        9.82         PASS
+ministral-3b         200    10.651s    1014.31      15.27        PASS
+ministral-8b         200    27.418s    499.10       5.41         PASS
+deepseek-r1-7b       200    23.475s    7.82         8.57         PASS

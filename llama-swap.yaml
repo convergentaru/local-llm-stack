@@ -66,6 +66,21 @@ models:
       ${PORT}
       deepseek-r1-7b
 
+  "qwen3-8b":
+    name: "Qwen3-8B Q4_K_M — 64K"
+    description: "Qwen3 thinking / non-thinking test"
+    context: 65536
+    capabilities:
+      in: ["text"]
+      out: ["text"]
+      tools: true
+    cmd: |
+      /home/oleg/local-llm-stack/llama-model-launcher.sh
+      /home/oleg/models/qwen3-8b/Qwen3-8B-Q4_K_M.gguf
+      65536
+      ${PORT}
+      qwen3-8b
+
 routing:
   router:
     use: group
