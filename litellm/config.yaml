@@ -35,8 +35,22 @@ model_list:
       api_base: http://127.0.0.1:8080/v1
       api_key: noop
 
+  - model_name: local-auto
+    litellm_params:
+      model: auto_router/complexity_router
+      complexity_router_config:
+        tiers:
+          SIMPLE: qwen3.5-4b
+          MEDIUM: ministral-8b
+          COMPLEX: qwen3-8b
+          REASONING: deepseek-r1-7b
+        classifier_type: heuristic
+        session_affinity: true
+      complexity_router_default_model: qwen3.5-4b
+
 general_settings:
   master_key: os.environ/LITELLM_MASTER_KEY
 
 litellm_settings:
   drop_params: true
+
