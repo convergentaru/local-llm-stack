@@ -21,7 +21,8 @@ Hermes → Unsloth Studio OpenAI-compatible API → locally served model.
 - Hermes model ID configured: `ministral-8b` (not yet verified against API)
 - Base URL configured: `http://127.0.0.1:48955/v1`
 - API mode: `chat_completions`
-- Endpoint reachability: **unknown / test pending**
+- Endpoint check: **failed** — curl returned connection refused on `127.0.0.1:48955`
+- Likely next step: identify the actual Unsloth Studio serving process and listening port; do not guess a replacement port.
 - Hermes request success: **not yet confirmed**
 - Error observed: `Provider temporarily unavailable`
 
