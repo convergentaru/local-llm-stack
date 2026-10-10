@@ -631,6 +631,18 @@ local-llm-stack/
 
 ---
 
+## Experimental project: JARVIS Holographic Interface
+
+Отдельный эксперимент по недорогому настольному JARVIS HUD с эффектом «парящей» 3D-модели и управлением жестами. Начинаем с веб-камеры + MediaPipe + Three.js в обычном окне, затем — собственная Pepper's Ghost конструкция из экрана и прозрачного акрила. Дорогой spatial display остаётся необязательным апгрейдом.
+
+- [Описание проекта и архитектура](docs/experiments/jarvis-holographic-interface/README.md)
+- [Поэтапный roadmap](docs/experiments/jarvis-holographic-interface/ROADMAP.md)
+- [Аппаратные варианты и оптические дисплеи](docs/experiments/jarvis-holographic-interface/HARDWARE.md)
+
+Важно: Pepper's Ghost создаёт оптическую иллюзию, а не физически свободно висящую голограмму. Жесты сначала управляют только визуальной сценой; чувствительные действия Hermes требуют отдельного подтверждения.
+
+---
+
 ## Experimental project: JARVIS Neural Interface
 
 Отдельное исследование самодельного локального BCI (EEG → ограниченные события управления JARVIS / Hermes). Начинаем с симулятора и UI, затем проверяем поток сигналов, классификатор, безопасность и только после этого интеграцию с агентом.
