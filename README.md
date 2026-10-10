@@ -631,6 +631,18 @@ local-llm-stack/
 
 ---
 
+## Experimental project: JARVIS Neural Interface
+
+Отдельное исследование самодельного локального BCI (EEG → ограниченные события управления JARVIS / Hermes). Начинаем с симулятора и UI, затем проверяем поток сигналов, классификатор, безопасность и только после этого интеграцию с агентом.
+
+- [Описание проекта и архитектура](docs/experiments/jarvis-neural-interface/README.md)
+- [Поэтапный roadmap](docs/experiments/jarvis-neural-interface/ROADMAP.md)
+- [Аппаратные варианты и электрическая безопасность](docs/experiments/jarvis-neural-interface/HARDWARE.md)
+
+Это исследовательский прототип, не чтение произвольных мыслей и не медицинское устройство. Для EEG-классификатора предусмотрены только команды из белого списка; чувствительные действия требуют отдельного подтверждения.
+
+---
+
 ## Recovery runbook: Hermes + Unsloth + Screenpipe
 
 Текущий отдельный эксперимент по прямому подключению Hermes к Unsloth, выборочному восстановлению BrowserSkill и возврату Screenpipe в CLI-only режиме документируется здесь: [Hermes–Unsloth–Screenpipe recovery plan](docs/experiments/hermes-unsloth-screenpipe-recovery.md).
