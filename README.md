@@ -627,3 +627,12 @@ local-llm-stack/
 
 Следующий важный этап проекта — установка на другом компьютере и сбор реальной обратной связи.
 
+
+
+---
+
+## Recovery runbook: Hermes + Unsloth + Screenpipe
+
+Текущий отдельный эксперимент по прямому подключению Hermes к Unsloth, выборочному восстановлению BrowserSkill и возврату Screenpipe в CLI-only режиме документируется здесь: [Hermes–Unsloth–Screenpipe recovery plan](docs/experiments/hermes-unsloth-screenpipe-recovery.md).
+
+В рамках этого эксперимента Hermes обращается напрямую к Unsloth; существующая архитектура LiteLLM/llama-swap описывает другие сценарии и не включается в этот конкретный путь.
