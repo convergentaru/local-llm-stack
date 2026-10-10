@@ -170,3 +170,18 @@ On a harmless test page: connect → navigate → take a page snapshot → locat
 **Next action:** install Hermes from the official installer, verify the new CLI version, and do not select Nous Portal. Then confirm the Unsloth model endpoint and choose the Desktop connection path based on installed CLI help. Continue with server context/KV settings, selective skill restoration, Screenpipe CLI recovery, and the browser smoke test.
 
 Work one step at a time. Record the actual command, version, result and any caveats after each stage.
+
+
+## FAQ / key decisions
+
+**Was Screenpipe removed with Hermes?** No. The Screenpipe process was not running, and there is no detected system package/service, but its user data remains in `~/.screenpipe`, a copy of that directory was archived, and CLI package `0.4.52` remains in npm cache. The old launch command is not yet confirmed.
+
+**Was BrowserSkill lost?** Its skill files are present in the Hermes ZIP backup. Restore only the needed skill folders, not the complete Hermes config/auth/session state.
+
+**Should `64K` and `Q8` be typed into the Hermes Desktop command?** Not as generic Hermes flags. Context is configured at model/server launch time; Unsloth Start documents `--context-length`, while KV cache flags `--cache-type-k q8_0` and `--cache-type-v q8_0` are llama.cpp server options. Confirm which options the installed Unsloth command accepts with `--help`, then verify actual server logs.
+
+**Does “Q8-4” mean one parameter?** No. It may refer to Q4-quantized weights together with Q8 KV cache. Those are separate controls; confirm the intended weight quantization before loading the model.
+
+**Will 64K work on the RTX 3060 12 GB?** Not guaranteed. Try only after confirming model variant, available memory, and the effective context reported by the server. Record whether Unsloth auto-reduced the value or spilled workload into RAM.
+
+**Why not restore the backup wholesale?** It includes obsolete config/auth data as well as useful skills. Full import could revive the very old provider/model choices that were removed to reset the setup.
