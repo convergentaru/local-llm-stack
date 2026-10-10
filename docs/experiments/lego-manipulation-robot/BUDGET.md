@@ -42,6 +42,30 @@ Budget approximately **€300–500** after printing, cameras/accessories, deliv
 
 For budgeting, allow **~€400–600** unless the full current bill of materials and all required parts are already in hand. It is a larger design with more fabrication, mechanical assembly and calibration work than the compact SO-ARM101. Its reach/payload do not imply that it can accurately assemble LEGO snap-fits.
 
+
+## Recommended purchase strategy for this project
+
+**Recommended first build: one SO-ARM101 follower arm, simple parallel gripper, no second arm.** Keep the host computer as the existing Ubuntu machine and use a basic USB webcam. A practical target budget is **€250–350** if the printed parts can be made locally and delivery remains reasonable. Treat **€400** as a cautious ceiling for the first prototype if print service, shipping or replacement items cost more.
+
+Buy in this order:
+
+1. Confirm the current SO-ARM101 BOM and exact servo/controller versions.
+2. Verify that the local Ubuntu setup can run the intended ROS 2 distribution and the community SO-ARM driver/MoveIt package.
+3. Price the servos, controller, power supply, cables, fasteners and printed parts as one BOM before ordering.
+4. Start without a second leader arm unless teleoperation/demonstration collection is explicitly part of the first experiment.
+5. Add the camera and fixed lighting when moving from manual control to visual pick-and-place.
+
+### Budget versus capability
+
+| Budget bracket | Expected scope | Not promised |
+|---|---|---|
+| €200–350 | One compact printed arm, basic gripper, electronics, existing PC; optional basic camera depending on final bill | Reliable recognition of arbitrary LEGO parts or snap-fit assembly |
+| €250–400 | Same first arm with outsourced printing / higher shipping contingency | Guaranteed precision manipulation |
+| €300–500 | Two-arm leader/follower configuration for teleoperation/demonstrations | Better assembly accuracy without perception, calibration and trained control |
+| €400–600 | Larger Thor-style six-axis printed arm, depending on BOM and sourcing | Automatic LEGO assembly out of the box |
+
+All totals are planning estimates, not quotes from a single seller. Before purchasing, check taxes, shipping, exact servo model, included controller, power requirements and whether printed body parts are included. Do not order only on the basis of the headline price.
+
 ## What is not included
 
 - Purchase of a 3D printer (printing service is used instead).
