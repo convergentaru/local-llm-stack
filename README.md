@@ -631,6 +631,18 @@ local-llm-stack/
 
 ---
 
+## Experimental project: LEGO Manipulation Robot
+
+Исследование роботизированной руки для LEGO: начать с сортировки по цвету, затем перейти к распознаванию конкретных деталей, pick-and-place и контролируемой сборке простых подузлов. Рассматриваются LEGO Education Color Sorter, открытая рука SO-ARM101/LeRobot и более сложная многопальцевая LEAP Hand.
+
+- [Описание проекта и архитектура](docs/experiments/lego-manipulation-robot/README.md)
+- [Поэтапный roadmap](docs/experiments/lego-manipulation-robot/ROADMAP.md)
+- [Аппаратные варианты, датчики и безопасность](docs/experiments/lego-manipulation-robot/HARDWARE.md)
+
+Ключевое разделение: цветовая сортировка, распознавание геометрии/part ID и защёлкивание LEGO — разные уровни сложности. Начинаем с ограниченной задачи и не даём Hermes прямого управления моторами.
+
+---
+
 ## Architecture proposal: JARVIS Work Augmentation
 
 Общая архитектура, объединяющая программного помощника, локальную память, жесты, будущие EMG/EEG-датчики, голографический вывод и эргономическую поддержку физической работы.
