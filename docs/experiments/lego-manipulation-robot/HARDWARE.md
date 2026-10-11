@@ -1,5 +1,15 @@
 # Hardware research — LEGO Manipulation Robot
 
+## Готовая модель-основа: LEGO EV3 Robot Arm H25
+
+Для первой физической сборки не нужно придумывать руку с нуля. LEGO Education публикует исходные инструкции для EV3 Robot Arm H25 на [странице EV3 Building Instructions](https://education.lego.com/en-us/product-resources/mindstorms-ev3/downloads/building-instructions/). Там же отдельно опубликована сборка Color Sorter.
+
+Проект [Zekseed/PU-Robot](https://github.com/Zekseed/PU-Robot) адаптирует Robot Arm H25: в нём есть клешня, мотор поворота, датчик вращения и датчик цвета под подъёмным механизмом. Программа использует EV3 MicroPython/Pybricks и сортирует предметы по цветовым зонам. Не путать цветовое определение с универсальным распознаванием детали: для формы/размера потребуется дополнительный механизм или зрение.
+
+В проекте указан базовый вариант подключения: arm/claw motor A, color sensor S2, rotation motor B, rotation sensor S1. Сверить с фактическим Hub, сборкой и программой до подачи питания.
+
+См. [REFERENCE-DESIGNS.md](REFERENCE-DESIGNS.md) для инструкции, программы, альтернативного BRICK SORT3R и плана доработки.
+
 ## 0. LEGO Technic arm without 3D printing
 
 Это рекомендуемый первый эксперимент, если уже есть Technic детали. Сборку можно сделать из liftarms, рам, pins, axles, gears и connectors. Не требуется печатать стороннюю механику или сразу покупать промышленный манипулятор.
