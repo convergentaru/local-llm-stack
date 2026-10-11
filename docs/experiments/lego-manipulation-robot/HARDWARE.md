@@ -1,5 +1,22 @@
 # Hardware research — LEGO Manipulation Robot
 
+## 0. LEGO Technic arm without 3D printing
+
+Это рекомендуемый первый эксперимент, если уже есть Technic детали. Сборку можно сделать из liftarms, рам, pins, axles, gears и connectors. Не требуется печатать стороннюю механику или сразу покупать промышленный манипулятор.
+
+### Приводы
+
+Вначале использовать только доступные совместимые LEGO motors и programmable hub. Не каждый современный Technic/Powered Up hub поддерживает одну и ту же стороннюю прошивку. Перед закупкой проверять точную модель. [Pybricks](https://docs.pybricks.com/en/latest/) поддерживает ряд LEGO hubs и доступен на Linux; официальный [LEGO Education Python API](https://github.com/LEGO/LEGOEducation) управляет совместимым educational hardware через BLE и предоставляет доступ к мотору, двойному мотору и датчику цвета.
+
+### Цифровая инструкция
+
+1. Использовать LDraw Nova для наброска из деталей LDraw с запретом на 3D-печатные элементы.
+2. Сверить детали с реальным запасом и проверить точки крепления моторов, геометрию осей/шестерён и отсутствие столкновений.
+3. Использовать [LPub3D](https://github.com/trevorsandy/lpub3d) для пошаговой инструкции в стиле LEGO на Ubuntu.
+4. Физически проверить шаги сборки. AI-сгенерированный LDraw файл не гарантирует, что механизм работает, что gears зацепляются правильно или что мотору хватает момента.
+
+[План прототипа](LEGO-TECHNIC-PROTOTYPE.md) · [Бюджет прототипа](LEGO-TECHNIC-BUDGET.md).
+
 ## 1. LEGO Education: color sorting
 
 LEGO Education сохраняет официальный учебный проект [Make a System That Sorts Colors](https://education.lego.com/en-us/lessons/ev3-dep/make-a-system-that-sorts-colors/). В нём требуется определить минимум три цвета LEGO elements и сортировать их по отдельным местам; пример использует Color Sensor, моторы и Ultrasonic Sensor.
