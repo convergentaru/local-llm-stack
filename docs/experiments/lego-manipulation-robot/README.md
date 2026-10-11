@@ -7,7 +7,7 @@ updated: 2026-10-11
 tags: [robot-factory-os, lego, manipulation, robot-arm, gripper, computer-vision, lerobot, bom, ldraw]
 ---
 
-# LEGO Manipulation Robot — сортировка, захват и сборка
+# LEGO Sequence-Kitting Robot — комплектовка по инструкции
 
 > Исследовательский проект Robot Factory OS. Первый результат — комплектовщик, который по готовой инструкции раскладывает LEGO-детали в порядке сборки; соединение деталей остаётся человеку. Позже исследуем распознавание смешанной россыпи и управляемое соединение кирпичиков.
 
@@ -24,11 +24,13 @@ tags: [robot-factory-os, lego, manipulation, robot-arm, gripper, computer-vision
 
 Hermes может составлять план, объяснять ошибки и выдавать структурированное задание. Но низкоуровневое управление моторами должно оставаться у проверенного контроллера, а не напрямую у LLM.
 
-## Выбранная готовая основа: EV3 Robot Arm H25 + цветовая сортировка
+## Приоритетная архитектура: комплектовка по шагам инструкции
 
-Наш наиболее близкий референс — [Zekseed/PU-Robot](https://github.com/Zekseed/PU-Robot): EV3 Robot Arm H25 с клешнёй, датчиком цвета и программой сортировки по цветовым зонам. Механическая база использует официальную LEGO EV3 Robot Arm H25, а цветовой датчик добавлен под подъёмным механизмом.
+Основной MVP описан в [SEQUENCE-KITTING-ROBOT.md](SEQUENCE-KITTING-ROBOT.md). Робот получает step-aware BOM, находит требуемые элементы, раскладывает их в подписанные ячейки последовательности, подтверждает результат и ведёт учёт недостачи. Сборку пока выполняет человек.
 
-Сравнение других готовых конструкций, ссылка на официальные инструкции, PDF BRICK SORT3R и план адаптации хранятся в [REFERENCE-DESIGNS.md](REFERENCE-DESIGNS.md). Начинаем не с проектирования новой руки, а с воспроизведения известной механики и аккуратного добавления датчика.
+Для сортировочной рабочей зоны первым кандидатом является портал X–Y–Z с фиксированной верхней камерой и простой сменной двухгубочной клешнёй. Такая механика может позднее получить отдельную прижимную насадку для контролируемого соединения LEGO. Финальную конструкцию и приводы выбираем только после инвентаризации доступного оборудования.
+
+[Zekseed/PU-Robot](https://github.com/Zekseed/PU-Robot) остаётся полезным референсом для клешни и датчика цвета, а не обязательной механической базой всего проекта. Сравнение готовых конструкций и официальных инструкций — в [REFERENCE-DESIGNS.md](REFERENCE-DESIGNS.md).
 
 ## Более простой первый вариант — LEGO Technic без 3D-печати
 
@@ -65,30 +67,27 @@ Hermes может составлять план, объяснять ошибки
 
 ## Рекомендуемая архитектура
 
-    BOM / assembly step / LDraw reference
+    LDraw model + step-aware BOM
                    |
                    v
-    Task planner (Hermes may propose structured intent)
+    Kitting planner <---- stock/inventory ledger
                    |
                    v
-    Constrained robot task API
-    - sort_by_color(part)
-    - pick(part_id, source_bin)
-    - place(target_slot, orientation)
-    - inspect_pose()
+    Perception / localization <---- fixed overhead camera
+                   |
+                   v
+    Constrained task API
+    - find_candidate(part_id)
+    - pick(candidate_pose)
+    - place(step_tray, slot)
+    - verify_placement()
     - stop()
                    |
                    v
-    Perception / localization <---- overhead or wrist camera
+    X-Y-Z gantry + interchangeable gripper
                    |
                    v
-    Motion planner + calibrated robot controller
-                   |
-                   v
-    SO-ARM101 or LEGO educational sorter
-                   |
-                   v
-    camera/force feedback -> verify -> log result
+    Step-labelled trays -> human assembly
 
 Правило границы: Hermes не отправляет произвольные joint-angle массивы, shell-команды или прямые команды моторам. Он передаёт только валидированные задачи из ограниченного API. Контроллер проверяет workspace, скорость, допустимые позы и остановку.
 
