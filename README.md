@@ -639,6 +639,8 @@ local-llm-stack/
 - [Поэтапный roadmap](docs/experiments/lego-manipulation-robot/ROADMAP.md)
 - [Аппаратные варианты, датчики и безопасность](docs/experiments/lego-manipulation-robot/HARDWARE.md)
 - [Оценка бюджета ROS 2 руки](docs/experiments/lego-manipulation-robot/BUDGET.md)
+- [Упрощённый прототип LEGO Technic без 3D-печати](docs/experiments/lego-manipulation-robot/LEGO-TECHNIC-PROTOTYPE.md)
+- [Бюджет прототипа на деталях LEGO](docs/experiments/lego-manipulation-robot/LEGO-TECHNIC-BUDGET.md)
 
 Ключевое разделение: цветовая сортировка, распознавание геометрии/part ID и защёлкивание LEGO — разные уровни сложности. Начинаем с ограниченной задачи и не даём Hermes прямого управления моторами.
 
