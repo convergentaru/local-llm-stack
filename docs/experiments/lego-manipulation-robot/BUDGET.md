@@ -9,6 +9,15 @@ For a single small 6-DOF SO-ARM101 follower arm with a printed body, gripper, ba
 
 This is a planning range, not a current guaranteed cart price. Servo prices, shipping, VAT and print service quotes change. LEGO snap-fit assembly is a harder task than simple pick-and-place; this budget only gets us a research arm, not a guaranteed LEGO-assembly machine.
 
+## Cheapest path first: LEGO Technic prototype
+
+SO-ARM101 is no longer the default first purchase. Before buying a 3D-printed arm, build a hand-operated prototype from the Technic parts already available. If a compatible motor hub and two motors are already owned, the extra cost may be limited to missing pins/gears/parts. If the hub or motors are missing, quote that exact hardware separately; there is no honest fixed total before inventory.
+
+- Mechanical proof-of-concept: use existing parts; no printer needed.
+- First motorized proof-of-concept: two axes plus a simple claw, using a compatible LEGO hub and motors.
+- ROS 2 and computer vision come after the physical arm has stable, repeatable motion.
+- Full details: [LEGO Technic prototype plan](LEGO-TECHNIC-PROTOTYPE.md) and [prototype budget](LEGO-TECHNIC-BUDGET.md).
+
 ## Option A — recommended small arm: SO-ARM101 follower
 
 An upstream EU-oriented bill of materials reports approximately **€124.30 for one follower arm's non-printed components and basic items**, including six STS3215 servos, one motor-control board, power supply, USB cable, clamp and a screwdriver set. The same source estimates **€226.30 for the paired leader + follower setup**, excluding printed parts and cameras. Check the project's current BOM before ordering: [SO-ARM101 bill of materials reference](https://github.com/roboninecom/SO-ARM101).
