@@ -1,0 +1,69 @@
+:root {
+  color-scheme: dark;
+  --bg: #0b1015;
+  --panel: #121b23;
+  --panel-2: #17232d;
+  --text: #e8f0f5;
+  --muted: #a6b6c3;
+  --line: #2b3b48;
+  --accent: #7de0c3;
+  --accent-2: #a5c8ff;
+  --warning: #ffd28a;
+  --max: 920px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 15% -10%, rgba(61, 124, 135, .22), transparent 38rem),
+    var(--bg);
+  color: var(--text);
+  font: 16px/1.72 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+a { color: var(--accent); text-decoration-thickness: .08em; text-underline-offset: .2em; }
+a:hover { color: #b5f6e4; }
+.wrap { width: min(var(--max), calc(100% - 2.2rem)); margin-inline: auto; }
+header { padding: 1.35rem 0; border-bottom: 1px solid var(--line); }
+.nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.brand { color: var(--text); font-weight: 750; letter-spacing: -.03em; text-decoration: none; }
+.brand span { color: var(--accent); }
+.nav small { color: var(--muted); }
+main { padding: 4.2rem 0 5rem; }
+.eyebrow { color: var(--accent); font: 700 .78rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .12em; text-transform: uppercase; }
+h1, h2, h3 { line-height: 1.2; letter-spacing: -.035em; }
+h1 { font-size: clamp(2.35rem, 6vw, 4.2rem); max-width: 16ch; margin: .8rem 0 1.1rem; }
+h2 { font-size: clamp(1.55rem, 3vw, 2.1rem); margin: 2.7rem 0 .9rem; }
+h3 { font-size: 1.15rem; margin: 1.3rem 0 .5rem; }
+.lead { color: #c1d0da; font-size: clamp(1.08rem, 2vw, 1.28rem); max-width: 68ch; }
+.meta { display: flex; flex-wrap: wrap; gap: .55rem 1rem; color: var(--muted); font-size: .9rem; margin: 1.4rem 0; }
+.pill { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: .18rem .65rem; font-size: .82rem; color: var(--muted); }
+.hero { padding: 2.1rem; border: 1px solid var(--line); border-radius: 1.4rem; background: linear-gradient(145deg, rgba(23,35,45,.94), rgba(15,23,30,.92)); }
+.hero .lead { margin-bottom: 1.6rem; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 2rem; }
+.card { display: block; padding: 1.35rem; background: rgba(18,27,35,.92); border: 1px solid var(--line); border-radius: 1rem; color: var(--text); text-decoration: none; transition: transform .15s ease, border-color .15s ease; }
+.card:hover { color: var(--text); border-color: #507c83; transform: translateY(-2px); }
+.card h2 { font-size: 1.3rem; margin: .65rem 0; }
+.card p { color: var(--muted); margin: 0; }
+.notice { border-left: 3px solid var(--warning); background: rgba(255,210,138,.07); padding: 1rem 1.2rem; margin: 1.6rem 0; border-radius: 0 .8rem .8rem 0; }
+.notice strong { color: var(--warning); }
+.success { border-left-color: var(--accent); background: rgba(125,224,195,.07); }
+.success strong { color: var(--accent); }
+article { max-width: 76ch; }
+article p, article ul, article ol { color: #d1dce3; }
+article li { margin: .4rem 0; }
+article code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+article code { color: #bfe8de; background: #17232b; border: 1px solid #263743; border-radius: .35rem; padding: .08rem .32rem; font-size: .9em; overflow-wrap: anywhere; }
+pre { overflow-x: auto; padding: 1rem 1.15rem; background: #080d11; border: 1px solid var(--line); border-radius: .8rem; color: #d7e9e4; font-size: .92rem; line-height: 1.55; }
+pre code { background: none; border: 0; padding: 0; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+.back { display: inline-block; margin-bottom: 1.5rem; }
+footer { padding: 1.5rem 0 2.5rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+footer .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; }
+@media (max-width: 640px) {
+  main { padding-top: 2.3rem; }
+  .hero { padding: 1.35rem; }
+  .grid { grid-template-columns: 1fr; }
+  .nav { align-items: flex-start; flex-direction: column; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .card { transition: none; } }
