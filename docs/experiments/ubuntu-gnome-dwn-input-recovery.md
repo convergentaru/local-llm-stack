@@ -59,6 +59,20 @@ This is a recovery workaround, not a root-cause fix. Do not delete DWN or reinst
 - User reported that Ubuntu asked for the password twice after the Ubuntu greeting. This is an observation to investigate, not yet diagnosed.
 - The user read journal errors including ACPI BIOS messages and repeated input/event messages resembling “failed to call … scan code … invalid argument”. Exact wording and originating component were not captured; do not attribute these errors to DWN without collecting the full journal.
 
+### Important clarification from the user (2026-10-12)
+
+The user is **not** claiming that the system spontaneously changes the session selection back to XFCE. During the 2026-10-12 recovery, while making a backup, the user found the older backup file at `/root/oleg` from the 2026-10-05 incident. The backup still contained the XFCE value (including `XSession=xfce`), which helped the user recognize the same recovery pattern. The user left that backup untouched, created a separate directory named `DWN`, copied the file there for safekeeping, edited the live AccountsService file to select Ubuntu, and rebooted successfully. The exact full contents and paths of the additional copy have not yet been independently inspected.
+
+The recurring pattern to document is:
+
+1. Select/launch the alternate DWN graphical session.
+2. The graphical desktop appears to load, but keyboard and mouse input are unusable.
+3. Return to recovery/command-line access.
+4. Restore the AccountsService session selection to `Session=ubuntu` and `XSession=ubuntu` using Midnight Commander.
+5. Reboot; the regular Ubuntu GNOME desktop and input work again.
+
+This sequence has now been reported twice (2026-10-05 and 2026-10-12). It is evidence of a repeatable **recovery path**; it does not establish that XFCE is automatically written back, nor does it yet identify the DWN input failure's root cause.
+
 ## Investigation plan
 
 Keep GNOME as the known-good recovery path. Diagnose DWN without making speculative system-wide changes.
