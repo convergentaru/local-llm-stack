@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1015">
+  <meta name="description" content="Разбор проблемы ввода при переходе с GNOME Wayland на DWN/Xorg в Ubuntu 26.04: отсутствующий xserver-xorg-input-libinput и безопасная диагностика.">
+  <title>Ubuntu 26.04: мышь и клавиатура в DWN/Xorg — Lab Notes</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="../">CONVERGENTARU <span>/ LAB NOTES</span></a>
+      <small>Linux · Диагностика</small>
+    </div>
+  </header>
+  <main class="wrap">
+    <article>
+      <a class="back" href="../">← Все записи</a>
+      <p class="eyebrow">Полевой отчёт · Ubuntu / X11</p>
+      <h1>Ubuntu 26.04: GNOME работает, а в DWN не отвечает мышь и клавиатура</h1>
+      <p class="lead">Переход с GNOME на Wayland к оконному менеджеру, работающему через Xorg, выявил неприятный разрыв: устройства видны системе, но сеанс не принимает ввод. В ходе диагностики мы нашли отсутствующий пакет X.Org input driver.</p>
+      <div class="meta">
+        <span>12 октября 2026</span>
+        <span>Ubuntu 26.04 · GNOME/Wayland · DWN/Xorg</span>
+        <span class="pill">Проверка исправления не завершена</span>
+      </div>
+
+      <div class="notice">
+        <strong>Статус на момент публикации.</strong>
+        Пакет <code>xserver-xorg-input-libinput</code> отсутствовал и затем был установлен. Повторный вход в DWN после установки ещё нужно проверить. Поэтому пока это подтверждённая находка и наиболее вероятное объяснение, но не окончательно доказанное исправление на этой машине.
+      </div>
+
+      <h2>Симптом</h2>
+      <p>На рабочей станции с Ubuntu 26.04 GNOME работает нормально: мышь и физическая клавиатура исправны, командами можно пользоваться. При входе в DWN — отдельный оконный менеджер на базе X11/Xorg — пользователь теряет возможность управлять сеансом через те же устройства. Похожая картина раньше наблюдалась и при эксперименте с XFCE.</p>
+      <p>Это сразу направляет поиск не только к самим USB-устройствам, но и к различиям между графическими стеками. GNOME работает в Wayland, а выбранный сеанс DWN запускает Xorg.</p>
+
+      <h2>Что показали журналы</h2>
+      <ul>
+        <li>Ядро Linux распознало клавиатуру Chicony и USB Optical Mouse через USB HID.</li>
+        <li><code>systemd-logind</code> зарегистрировал <code>seat0</code> и увидел клавиатуру.</li>
+        <li>В журнале Xorg есть строки добавления клавиатуры и мыши, в том числе <code>/dev/input/event2</code> и <code>/dev/input/event4</code>.</li>
+        <li>DWN написал <code>DWN initialized successfully</code> и сообщил об инициализации XInput2.</li>
+      </ul>
+      <p>Это означает, что устройства обнаруживались на нижних уровнях. Но само обнаружение ещё не гарантирует, что Xorg установил подходящий драйвер для получения событий ввода.</p>
+
+      <h2>Ключевая находка: отсутствовал X.Org input driver</h2>
+      <p>Мы проверили установленные пакеты через <code>dpkg-query</code>. Результат:</p>
+      <ul>
+        <li><code>xserver-xorg-core</code> — установлен;</li>
+        <li><code>xserver-xorg-input-libinput</code> — не установлен;</li>
+        <li><code>xserver-xorg-input-all</code> — не установлен.</li>
+      </ul>
+      <p><code>xserver-xorg-input-libinput</code> — драйвер ввода для X.Org, использующий libinput для мышей, клавиатур и тачпадов. Это отдельный пакет: наличие Xorg-сервера само по себе не гарантирует наличие этого драйвера.</p>
+
+      <h2>Есть ли похожие случаи в Ubuntu 26.04?</h2>
+      <p>Да. В <a href="https://bugs.launchpad.net/ubuntu/+source/ubuntukylin-meta/+bug/2165137">отчёте Ubuntu Launchpad № 2165137</a> описан близкий случай в Ubuntu Kylin 26.04.1 с минимальной установкой: пакетам <code>xserver-xorg-input-all</code>, <code>xserver-xorg-input-libinput</code> и <code>xserver-xorg-input-wacom</code> не хватало места в составе установки. В результате мышь и клавиатура не работали в графическом сеансе UKUI. После установки нужных пакетов и перезагрузки автор проверил, что ввод заработал.</p>
+      <p>Это другой вариант Ubuntu и другой рабочий стол, поэтому такой отчёт подтверждает существование целого класса проблем с отсутствующими X.Org-драйверами, но сам по себе не доказывает причину именно нашего случая.</p>
+      <p>В <a href="https://packages.ubuntu.com/resolute/amd64/x11/xserver-xorg-input-all">официальных метаданных пакета Ubuntu 26.04</a> также указано, что метапакет <code>xserver-xorg-input-all</code> зависит от <code>xserver-xorg-input-libinput</code>.</p>
+
+      <h2>Что мы сделали</h2>
+      <p>В работающем GNOME выполнили точечную установку одного отсутствующего пакета:</p>
+      <pre><code>sudo apt install xserver-xorg-input-libinput</code></pre>
+      <p>APT установил пакет версии <code>1.5.0-1build1</code>: один новый пакет, ноль удалений. После этого нужно полностью выйти из текущего графического сеанса и войти в DWN заново, чтобы Xorg запустился уже с доступным драйвером.</p>
+
+      <div class="notice success">
+        <strong>Почему мы не стали отключать GNOME Keyring.</strong>
+        В журнале действительно были сообщения о запросе пароля Keyring, и эта зацепка заслуживала проверки. Но журнал не показал доказательств, что именно Keyring отключил ввод. Сначала стоит подтвердить результат установки X.Org-драйвера, а не менять сразу несколько компонентов.
+      </div>
+
+      <h2>Как проверить исправление</h2>
+      <ol>
+        <li>Сохранить документы в GNOME и завершить сеанс обычным способом.</li>
+        <li>На экране входа выбрать DWN через меню сеансов.</li>
+        <li>Проверить движение курсора, клики, ввод с физической клавиатуры и клавиатурные сочетания DWN.</li>
+        <li>Если ввод по-прежнему не работает, вернуться в текстовую консоль и собрать свежий журнал именно новой загрузки/сеанса до изменения дополнительных настроек.</li>
+      </ol>
+      <p>Для аварийного возврата можно перейти в консоль сочетанием <code>Ctrl+Alt+F3</code>, войти под своим пользователем и выполнить:</p>
+      <pre><code>sudo systemctl restart gdm</code></pre>
+      <p><strong>Внимание:</strong> перезапуск GDM завершает графический сеанс и может привести к потере несохранённых данных. Команда предназначена для ситуации, когда графический сеанс действительно завис и обычный выход недоступен.</p>
+
+      <h2>Вывод на сейчас</h2>
+      <p>Главный урок: если GNOME на Wayland работает, а другой оконный менеджер на X11 — нет, не нужно сразу менять права устройств, удалять GNOME или отключать Keyring. Сначала сравните графические стеки и проверьте, установлен ли X.Org input driver. На этой машине драйвер отсутствовал; мы установили его, а окончательный статус исправления обновим после повторной проверки DWN.</p>
+
+      <hr>
+      <h3>Источники</h3>
+      <ul>
+        <li><a href="https://bugs.launchpad.net/ubuntu/+source/ubuntukylin-meta/+bug/2165137">Ubuntu Launchpad: Missing X.Org input drivers on minimal installation</a></li>
+        <li><a href="https://packages.ubuntu.com/resolute/amd64/x11/xserver-xorg-input-all">Ubuntu 26.04 package metadata: xserver-xorg-input-all</a></li>
+        <li><a href="https://packages.ubuntu.com/resolute/amd64/x11/xserver-xorg-input-libinput">Ubuntu 26.04 package metadata: xserver-xorg-input-libinput</a></li>
+      </ul>
+    </article>
+  </main>
+  <footer>
+    <div class="wrap foot">
+      <span>Convergentaru · Lab Notes</span>
+      <a href="https://github.com/convergentaru/local-llm-stack">Код и документация на GitHub</a>
+    </div>
+  </footer>
+</body>
+</html>
