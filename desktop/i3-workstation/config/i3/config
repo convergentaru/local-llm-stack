@@ -1,0 +1,213 @@
+# =============================================================================
+# i3 CONFIG — Tokyo Night theme
+# =============================================================================
+
+set $mod Mod4
+font pango:JetBrainsMono Nerd Font 10
+
+# -----------------------------------------------------------------------------
+# Applications
+# -----------------------------------------------------------------------------
+set $term      alacritty
+set $browser   brave
+set $files     thunar
+set $launcher  rofi -show drun -theme ~/.config/rofi/theme.rasi
+set $lock      ~/.config/scripts/lock.sh
+set $vol_up    ~/.config/scripts/volume.sh up
+set $vol_down  ~/.config/scripts/volume.sh down
+set $vol_mute  ~/.config/scripts/volume.sh mute
+set $bri_up    ~/.config/scripts/brightness.sh up
+set $bri_down  ~/.config/scripts/brightness.sh down
+
+# -----------------------------------------------------------------------------
+# Colors — Tokyo Night palette
+# -----------------------------------------------------------------------------
+set $bg       #1a1b26
+set $bg2      #24283b
+set $fg       #c0caf5
+set $accent   #7aa2f7
+set $urgent   #f7768e
+set $inactive #414868
+
+# border   bg       text     indicator child
+client.focused           $accent   $bg2     $fg      $accent   $accent
+client.focused_inactive  $inactive $bg      $fg      $inactive $inactive
+client.unfocused         $inactive $bg      $fg      $inactive $inactive
+client.urgent            $urgent   $urgent  $bg      $urgent   $urgent
+
+# -----------------------------------------------------------------------------
+# Gaps and borders
+# -----------------------------------------------------------------------------
+gaps inner 10
+gaps outer 6
+smart_gaps on
+smart_borders on
+default_border pixel 0
+default_floating_border pixel 0
+hide_edge_borders smart
+
+# -----------------------------------------------------------------------------
+# Autostart applications
+# -----------------------------------------------------------------------------
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id nm-applet
+exec --no-startup-id picom --config ~/.config/picom/picom.conf -b
+exec --no-startup-id dunst
+
+# Touchpad tapping
+exec_always --no-startup-id xinput set-prop "$(xinput | grep -i touchpad | grep -oP 'id=\K[0-9]+')" "libinput Tapping Enabled" 1
+
+# Polybar and wallpaper
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id feh --bg-fill ~/Pictures/wallpapers/wallpaper.jpg
+
+# -----------------------------------------------------------------------------
+# Lock screen and power management
+# -----------------------------------------------------------------------------
+bindsym $mod+l exec $lock
+exec --no-startup-id xss-lock -- $lock
+exec --no-startup-id xset dpms 300 300 300
+
+# -----------------------------------------------------------------------------
+# Application shortcuts
+# -----------------------------------------------------------------------------
+bindsym $mod+Return      exec $term
+bindsym $mod+d           exec $launcher
+bindsym $mod+shift+b     exec $browser
+bindsym $mod+shift+f     exec $files
+
+# -----------------------------------------------------------------------------
+# Volume controls
+# -----------------------------------------------------------------------------
+bindsym XF86AudioMute        exec $vol_mute
+bindsym XF86AudioLowerVolume exec $vol_down
+bindsym XF86AudioRaiseVolume exec $vol_up
+bindsym $mod+F1              exec $vol_mute
+bindsym $mod+F2              exec $vol_down
+bindsym $mod+F3              exec $vol_up
+
+# -----------------------------------------------------------------------------
+# Brightness controls
+# -----------------------------------------------------------------------------
+bindsym XF86MonBrightnessDown exec $bri_down
+bindsym XF86MonBrightnessUp   exec $bri_up
+bindsym $mod+F5               exec $bri_down
+bindsym $mod+F6               exec $bri_up
+
+# -----------------------------------------------------------------------------
+# Media controls
+# -----------------------------------------------------------------------------
+bindsym XF86AudioPlay  exec playerctl play-pause
+bindsym XF86AudioNext  exec playerctl next
+bindsym XF86AudioPrev  exec playerctl previous
+
+# -----------------------------------------------------------------------------
+# Screenshots
+# -----------------------------------------------------------------------------
+bindsym Print            exec maim ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png && dunstify "Screenshot saved"
+bindsym $mod+Print       exec maim -s | xclip -selection clipboard -t image/png && dunstify "Screenshot copied to clipboard"
+
+# -----------------------------------------------------------------------------
+# Window management
+# -----------------------------------------------------------------------------
+bindsym $mod+q           kill
+bindsym $mod+f           fullscreen toggle
+bindsym $mod+t           floating toggle
+exec_always --no-startup-id setxkbmap -layout "us,ru" -option "grp:alt_shift_toggle"
+floating_modifier $mod
+
+# Focus (Vim-style)
+bindsym $mod+h     focus left
+bindsym $mod+j     focus down
+bindsym $mod+k     focus up
+bindsym $mod+left  focus left
+bindsym $mod+down  focus down
+bindsym $mod+up    focus up
+bindsym $mod+right focus right
+
+# Move windows
+bindsym $mod+shift+h     move left
+bindsym $mod+shift+j     move down
+bindsym $mod+shift+k     move up
+bindsym $mod+shift+l     move right
+bindsym $mod+shift+left  move left
+bindsym $mod+shift+down  move down
+bindsym $mod+shift+up    move up
+bindsym $mod+shift+right move right
+
+# Split layout
+bindsym $mod+b split h
+bindsym $mod+v split v
+
+# Layout modes
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Resize mode
+bindsym $mod+r mode "resize"
+mode "resize" {
+    bindsym h      resize shrink width  5 px or 5 ppt
+    bindsym l      resize grow   width  5 px or 5 ppt
+    bindsym k      resize shrink height 5 px or 5 ppt
+    bindsym j      resize grow   height 5 px or 5 ppt
+    bindsym left   resize shrink width  5 px or 5 ppt
+    bindsym right  resize grow   width  5 px or 5 ppt
+    bindsym up     resize shrink height 5 px or 5 ppt
+    bindsym down   resize grow   height 5 px or 5 ppt
+    bindsym return mode "default"
+    bindsym escape mode "default"
+}
+
+# Floating windows for specific applications
+for_window [class="Pavucontrol"]          floating enable, resize set 700 450
+for_window [class="Blueman-manager"]      floating enable
+for_window [class="Lxappearance"]         floating enable
+for_window [class="Arandr"]               floating enable
+for_window [class="Nm-connection-editor"] floating enable
+
+# -----------------------------------------------------------------------------
+# Workspaces
+# -----------------------------------------------------------------------------
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+bindsym $mod+1  workspace $ws1
+bindsym $mod+2  workspace $ws2
+bindsym $mod+3  workspace $ws3
+bindsym $mod+4  workspace $ws4
+bindsym $mod+5  workspace $ws5
+bindsym $mod+6  workspace $ws6
+bindsym $mod+7  workspace $ws7
+bindsym $mod+8  workspace $ws8
+bindsym $mod+9  workspace $ws9
+bindsym $mod+0  workspace $ws10
+
+bindsym $mod+shift+1  move container to workspace $ws1
+bindsym $mod+shift+2  move container to workspace $ws2
+bindsym $mod+shift+3  move container to workspace $ws3
+bindsym $mod+shift+4  move container to workspace $ws4
+bindsym $mod+shift+5  move container to workspace $ws5
+bindsym $mod+shift+6  move container to workspace $ws6
+bindsym $mod+shift+7  move container to workspace $ws7
+bindsym $mod+shift+8  move container to workspace $ws8
+bindsym $mod+shift+9  move container to workspace $ws9
+bindsym $mod+shift+0  move container to workspace $ws10
+
+# Application assignment to workspaces
+assign [class="Firefox"] $ws2
+assign [class="Thunar"]  $ws3
+
+# -----------------------------------------------------------------------------
+# i3 management
+# -----------------------------------------------------------------------------
+bindsym $mod+shift+c reload
+bindsym $mod+shift+r restart
