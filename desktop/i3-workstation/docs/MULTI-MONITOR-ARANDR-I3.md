@@ -117,7 +117,7 @@ ls -l ~/.screenlayout/monitors.sh
 В нашем случае начало строки было:
 
 ```text
--rwx------ 1 oleg oleg ... /home/oleg/.screenlayout/monitors.sh
+-rwx------ 1 ИМЯ_ПОЛЬЗОВАТЕЛЯ ИМЯ_ГРУППЫ ... /home/ИМЯ_ПОЛЬЗОВАТЕЛЯ/.screenlayout/monitors.sh
 ```
 
 Расшифровка:
