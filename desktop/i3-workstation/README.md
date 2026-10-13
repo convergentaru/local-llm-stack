@@ -13,6 +13,10 @@ Backup of the working Ubuntu i3 desktop configuration.
 
 See [ARandR multi-monitor setup for i3](docs/MULTI-MONITOR-ARANDR-I3.md) for a beginner-friendly walkthrough covering monitor arrangement, applying and saving an ARandR profile, checking executable permissions, enabling i3 autostart, validating the configuration, and recovering from mistakes.
 
+## Future project: network-extended displays
+
+See [Network-extended displays research plan](docs/NETWORK-EXTENDED-DISPLAYS-PLAN.md) for the plan to investigate using spare Linux computers and old laptops as thin-client displays, including the current Ubuntu/NVIDIA/X11 baseline, technical caveats, candidate approaches, proof-of-concept phases, and rollback rules. This is a research plan, not an installed or verified setup.
+
 ## Validation
 The saved i3 config passed: `i3 -C -c desktop/i3-workstation/config/i3/config`
 
