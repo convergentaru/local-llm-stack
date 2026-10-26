@@ -8,7 +8,8 @@
 2. [APIConnectionError и недоступный custom provider](02-api-connection-errors.md)
 3. [Восстановление постоянной памяти и сохранение знаний](03-memory-recovery.md)
 4. [Прокачка Hermes: GBrain, ремонт компьютеров, юридические исследования и self-improvement](04-hermes-upgrade-gbrain-legal-repair.md)
-5. [Порядок применения и правила безопасности](05-operating-rules.md)
+5. [PravoAI: юридический поиск и embedding-модель](06-pravoai-legal-rag.md)
+6. [Порядок применения и правила безопасности](05-operating-rules.md)
 
 ## Текущее состояние на 2026-10-26
 
@@ -34,5 +35,6 @@
 - Hermes Agent: https://github.com/NousResearch/hermes-agent
 - Hermes FAQ: https://hermes-agent.nousresearch.com/docs/reference/faq
 - GBrain: https://github.com/garrytan/gbrain
+- Embedding-модель для русского юридического поиска: https://huggingface.co/Roflmax/bge-m3-russian-legal
 
 Инструкции из этой папки предназначены для использования и адаптации к фактической версии Hermes и локальной конфигурации. Они не заменяют проверку текущих параметров сервера.
