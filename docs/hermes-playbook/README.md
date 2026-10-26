@@ -9,7 +9,8 @@
 3. [Восстановление постоянной памяти и сохранение знаний](03-memory-recovery.md)
 4. [Прокачка Hermes: GBrain, ремонт компьютеров, юридические исследования и self-improvement](04-hermes-upgrade-gbrain-legal-repair.md)
 5. [PravoAI: юридический поиск и embedding-модель](06-pravoai-legal-rag.md)
-6. [Порядок применения и правила безопасности](05-operating-rules.md)
+6. [GBrain: постоянная память Hermes между сессиями](07-gbrain-memory-setup.md)
+7. [Порядок применения и правила безопасности](05-operating-rules.md)
 
 ## Текущее состояние на 2026-10-26
 
