@@ -4,6 +4,13 @@
 
 **Architecture:** Hermes → LiteLLM :4000 → llama-swap :8080 → llama.cpp
 
+## Model selection with llmfit
+
+[llmfit — обзор, фильтры, интерпретация оценок и методика реальных измерений](llmfit/README.md).
+
+llmfit отвечает за предварительный подбор и оценку пригодности. Существующий `benchmark-stack.sh` отвечает за end-to-end проверку через LiteLLM и llama-swap. Эти результаты дополняют друг друга, но не являются одним и тем же тестом.
+
+
 ## Cold request
 
 Cold timing includes model startup/loading plus inference. It is a practical stack-latency measurement, **not** a standardized tokens/sec benchmark.
