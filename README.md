@@ -472,8 +472,15 @@ Benchmark-файлы:
 
 ```text
 benchmark/
-benchmark/results/
+├── benchmark-stack.sh
+├── README.md
+├── llmfit/
+│   └── README.md
+└── results/
 ```
+
+- [Обзор llmfit и методика измерений](benchmark/llmfit/README.md)
+- [Существующий end-to-end benchmark](benchmark/README.md)
 
 Запуск:
 
